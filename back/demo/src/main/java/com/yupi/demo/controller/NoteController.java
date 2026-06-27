@@ -10,6 +10,8 @@ import com.yupi.demo.service.NoteService;
 import com.yupi.demo.service.impl.NoteServiceImpl;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("note")
 public class NoteController {
@@ -19,28 +21,25 @@ public class NoteController {
         this.noteService = noteServiceImpl;
     }
 
-    @PostMapping("add")
-    public ApiResult<String> addNote(@RequestBody NoteAddDTO dto) {
-        return noteService.addNote(dto);
-    }
+    @PostMapping("add")     //http://localhost:8081/api/note/add
+    public ApiResult<String> addNote(@RequestBody NoteAddDTO dto) { return noteService.addNote(dto);}
 
     @PostMapping("list")    //http://localhost:8081/api/note/list   {"pageNum":1,"pageSize":5,"keyword":""}
     public ApiResult<Page<Note>> listNotes(@RequestBody NoteQueryDTO dto) {
         return noteService.queryNote(dto);
     }
 
-    @PostMapping("update")
+    @PostMapping("update")  //http://localhost:8081/api/note/update
     public ApiResult<String> updateNote(@RequestBody NoteUpdateDTO dto) {
         return noteService.updateNote(dto);
     }
 
-    @PostMapping("delete")
+    @PostMapping("delete")      //http://localhost:8081/api/note/delete
     public ApiResult<String> deleteNote(@RequestParam Long id) {
         return noteService.deleteNote(id);
     }
 
-    @PostMapping(deleteBatch)
-    public ApiResult<String> deleteBatch(@RequestParam long id){return noteService.deleteBatch();}
-
+    @PostMapping("deletebatch")     //http://localhost:8081/api/note/eletebatch
+    public ApiResult<String> deleteBatch(@RequestBody List<Long> ids){return noteService.deleteBatch(ids);}
 
 }

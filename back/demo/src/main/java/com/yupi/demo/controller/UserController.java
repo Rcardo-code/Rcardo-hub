@@ -21,6 +21,7 @@ public class UserController {
     }
 
     //测试注册  POST http://localhost:8081/api/user/doRegister
+
     @PostMapping("doRegister")
     public ApiResult<String> DoRegister(@RequestBody UserRegisterDTO dto){
         return userService.register(dto);
@@ -28,6 +29,9 @@ public class UserController {
 
 
     // 测试登录，浏览器访问： POST http://localhost:8081/api/user/doLogin
+//    {
+//        "username": "test",
+//            "password": "123456"}
     @PostMapping("doLogin")
     public ApiResult<String> doLogin(@RequestBody UserLoginDTO dto) {
        return userService.login(dto);

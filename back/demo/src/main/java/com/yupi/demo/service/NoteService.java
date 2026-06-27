@@ -7,9 +7,12 @@ import com.yupi.demo.model.DTO.NoteQueryDTO;
 import com.yupi.demo.model.DTO.NoteUpdateDTO;
 import com.yupi.demo.model.entity.Note;
 
+import java.util.List;
+
 public interface NoteService {
     ApiResult<String> addNote(NoteAddDTO dto);
     ApiResult<String> updateNote(NoteUpdateDTO dto);
     ApiResult<Page<Note>> queryNote(NoteQueryDTO dto);
     ApiResult<String> deleteNote(Long id);
+    ApiResult<String> deleteBatch(List<Long> ids);
 }

@@ -1,6 +1,7 @@
 package com.yupi.demo.service.impl;
 
 import cn.dev33.satoken.stp.StpUtil;
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yupi.demo.common.ApiResult;
@@ -13,6 +14,8 @@ import com.yupi.demo.service.NoteService;
 import jakarta.annotation.Resource;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class NoteServiceImpl implements NoteService {
@@ -102,5 +105,23 @@ public class NoteServiceImpl implements NoteService {
             return ApiResult.success("笔记删除成功");
         }
         return ApiResult.serverError("笔记删除失败");
+    }
+
+    @Override
+    public ApiResult<String> deleteBatch(List<Long> ids) {
+        // 空列表校验
+        if (ids == null || ids.isEmpty()) {
+            return ApiResult.badRequest("删除列表不能为空");
+        }
+
+        LambdaQueryWrapper<Note> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(Note::getUserId, getCurrentUserId())
+                .in(Note::getId, ids);
+
+        int deleted = noteMapper.delete(wrapper);
+        if (deleted > 0) {
+            return ApiResult.success("成功删除 " + deleted + " 条笔记");
+        }
+        return ApiResult.badRequest("没找到这条笔记");
     }
 }
