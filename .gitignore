@@ -6,6 +6,5 @@
 **/.idea/
 **/target/
 **/*.iml
-
-
+**/简历模板.md
 **/test_data.sql
